@@ -1,0 +1,111 @@
+\chapter{Metodolog\'ia}
+
+\section{Inicializaci\'on de la Poblaci\'on}
+La poblaci\'on inicial se genera de forma uniforme a lo largo del espacio de b\'usqueda, definido por l\'imites inferiores y superiores para cada variable.
+
+\subsection*{Objetivo}
+Garantizar que la b\'usqueda comience explorando de manera equitativa todas las regiones posibles, evitando sesgos que puedan limitar la diversidad de soluciones iniciales.
+
+\subsection*{Implementaci\'on}
+Se utiliza la funci\'on \texttt{initialize\_population}, la cual emplea m\'etodos de generaci\'on aleatoria (por ejemplo, la funci\'on \texttt{np.random.uniform} de NumPy) para crear un conjunto de individuos.
+
+\subsection*{Ventajas}
+\begin{itemize}
+    \item Permite cubrir todo el rango definido para cada variable.
+    \item Aumenta la probabilidad de encontrar regiones prometedoras del espacio de soluciones desde el inicio.
+\end{itemize}
+
+\section{Evaluaci\'on de Fitness}
+
+Cada individuo generado se eval\'ua mediante la funci\'on objetivo, la cual determina qu\'e tan buena es la soluci\'on propuesta.
+
+\subsection*{Funciones Utilizadas}
+\begin{itemize}
+    \item \textbf{Langermann}: Es una funci\'on multimodal que combina componentes cosenoidales y exponenciales, generando m\'ultiples \'optimos locales.
+    \item \textbf{Drop-Wave}: Una funci\'on bidimensional con una superficie ondulada, usada para analizar el comportamiento del algoritmo en entornos con m\'ultiples picos y valles.
+\end{itemize}
+
+\subsection*{Proceso}
+Se calcula el valor de fitness para cada individuo (por ejemplo, evaluando $f(x_1, x_2)$) y se almacena dicho valor para posteriores comparaciones.
+
+\subsection*{Importancia}
+La evaluaci\'on correcta del fitness es crucial, ya que determina la selecci\'on de individuos y, por ende, el rumbo de la evoluci\'on poblacional.
+
+\section{Selecci\'on por Torneo}
+
+Para elegir los padres que generar\'an la siguiente generaci\'on se utiliza un m\'etodo de selecci\'on por torneo.
+
+\subsection*{Mecanismo}
+\begin{itemize}
+    \item Se forman m\'ultiples grupos (torneos) de individuos seleccionados al azar.
+    \item En cada grupo se compara el fitness de los participantes y se selecciona al individuo con el mejor desempe\~no.
+\end{itemize}
+
+\subsection*{Implementaci\'on Vectorizada}
+La funci\'on \texttt{vectorized\_tournament\_selection} realiza este proceso de forma eficiente, aprovechando operaciones vectorizadas de NumPy.
+
+\subsection*{Beneficios}
+\begin{itemize}
+    \item Favorece la selecci\'on de soluciones de alta calidad sin descartar por completo la diversidad poblacional.
+    \item Permite controlar la presi\'on selectiva mediante el tama\~no del torneo.
+\end{itemize}
+
+\section{Cruzamiento con SBX}
+
+El operador de cruzamiento se implementa mediante el m\'etodo SBX (Simulated Binary Crossover).
+
+\subsection*{Proceso del SBX}
+\begin{itemize}
+    \item A partir de dos padres, se genera un n\'umero aleatorio $u$ y se calcula un par\'ametro $\beta$ que determina la dispersi\'on de los descendientes respecto a los padres.
+    \item Se generan dos hijos combinando linealmente los valores de los padres.
+\end{itemize}
+
+\subsection*{Ajuste de L\'imites}
+Se incorpora un mecanismo en \texttt{sbx\_crossover\_with\_boundaries} que garantiza que los hijos resultantes se mantengan dentro de los l\'imites predefinidos.
+
+\subsection*{Ventajas}
+\begin{itemize}
+    \item Promueve la creaci\'on de soluciones intermedias que pueden explotar la informaci\'on gen\'etica de ambos padres.
+    \item Ayuda a preservar la diversidad en la poblaci\'on.
+\end{itemize}
+
+\section{Mutaci\'on Polinomial}
+
+Para introducir variabilidad y explorar nuevas regiones del espacio de b\'usqueda, se aplica la mutaci\'on polinomial.
+
+\subsection*{Mecanismo de la Mutaci\'on}
+\begin{itemize}
+    \item Cada gen de un individuo tiene una probabilidad definida de sufrir una mutaci\'on.
+    \item Se usa una distribuci\'on polinomial, controlada por el par\'ametro $\eta_{\text{mut}}$.
+\end{itemize}
+
+\subsection*{Consideraciones de L\'imites}
+La mutaci\'on se aplica respetando los l\'imites definidos para cada variable mediante la funci\'on \texttt{polynomial\_mutation\_with\_boundaries}.
+
+\subsection*{Beneficios}
+\begin{itemize}
+    \item Introduce peque\~nas variaciones que pueden conducir a la exploraci\'on de nuevas soluciones.
+    \item Previene la convergencia prematura al mantener la diversidad gen\'etica.
+\end{itemize}
+
+\section{Elitismo y Ciclo Evolutivo}
+
+El proceso evolutivo se estructura en ciclos o generaciones.
+
+\subsection*{Elitismo}
+\begin{itemize}
+    \item Se retiene el mejor individuo de la generaci\'on actual y se garantiza su inclusi\'on en la siguiente generaci\'on.
+    \item Esto asegura que la calidad de la soluci\'on nunca empeore a lo largo de las generaciones.
+\end{itemize}
+
+\subsection*{Ciclo Evolutivo}
+\begin{itemize}
+    \item Cada generaci\'on incluye la selecci\'on, el cruzamiento, la mutaci\'on y la incorporaci\'on del individuo de \'elite.
+    \item La evoluci\'on se repite durante un n\'umero predefinido de generaciones.
+\end{itemize}
+
+\subsection*{Registro y An\'alisis}
+\begin{itemize}
+    \item Se almacena el historial del fitness y de las mejores soluciones.
+    \item Esto facilita el an\'alisis del comportamiento del algoritmo y la generaci\'on de visualizaciones.
+\end{itemize}
