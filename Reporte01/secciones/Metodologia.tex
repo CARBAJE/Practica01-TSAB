@@ -21,12 +21,12 @@ Cada individuo generado se eval\'ua mediante la funci\'on objetivo, la cual dete
 
 \subsection*{Funciones Utilizadas}
 \begin{itemize}
-    \item \textbf{Langermann}: Es una funci\'on multimodal que combina componentes cosenoidales y exponenciales, generando m\'ultiples \'optimos locales.
-    \item \textbf{Drop-Wave}: Una funci\'on bidimensional con una superficie ondulada, usada para analizar el comportamiento del algoritmo en entornos con m\'ultiples picos y valles.
+    \item \textbf{Entrop\'ia de Shannon}: Se utiliza para medir la cantidad de informaci\'on contenida en la imagen transformada. Un mayor valor de entrop\'ia indica una distribuci\'on de intensidades m\'as uniforme y, por lo tanto, un mejor contraste.
+    \item \textbf{Desviaci\'on estandar}: Eval\'ua la dispersi\'on de los niveles de intensidad en la imagen. Una mayor desviaci\'on estándar sugiere una mayor separaci\'on entre tonos oscuros y claros, lo que contribuye a un mayor contraste.
 \end{itemize}
 
 \subsection*{Proceso}
-Se calcula el valor de fitness para cada individuo (por ejemplo, evaluando $f(x_1, x_2)$) y se almacena dicho valor para posteriores comparaciones.
+Para cada individuo en la población, se aplican los valores de $\alpha$ y $\Delta$ $(x_1, x_2)$ a la transformada sigmoide, obteniendo una imagen modificada. Posteriormente se calculan las metricas de Desviaci\'on estandar y entrop\'ia  y se almacena dicho valor para posteriores comparaciones.
 
 \subsection*{Importancia}
 La evaluaci\'on correcta del fitness es crucial, ya que determina la selecci\'on de individuos y, por ende, el rumbo de la evoluci\'on poblacional.
