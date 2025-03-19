@@ -1,6 +1,7 @@
 \chapter{Resultados y Discusión}
+\label{chap:resultados}
 
-Durante la ejecución del algoritmo genético para la mejora de contraste en imágenes médicas, se realizaron múltiples corridas completas para cada función objetivo (Maximización de Entropía y Maximización de Desviación Estándar), lo que permitió evaluar la estabilidad y eficiencia del método. Los resultados se agruparon en resúmenes globales, donde se registraron indicadores clave, los cuales se encuentran dentro de las siguientes tablas:
+Durante la ejecución del algoritmo genético para la mejora de contraste en imágenes médicas, se realizaron múltiples corridas completas para cada función objetivo (maximización de entropía y maximización de desviación estándar), lo que permitió evaluar la estabilidad y eficiencia del método. Los resultados se consolidaron en resúmenes globales, registrando indicadores clave que se presentan en las siguientes tablas:
 
 \begin{table}[H]
 \centering
@@ -18,150 +19,185 @@ Desv. Estándar & 0.0 & 7.51e-09 \\
 \end{table}
 
 \begin{table}[H]
-    \centering
-    \caption{Resumen Global de Corridas 02- Imagen Médica 5R (Mano)}
-    \begin{tabular}{lcc}
-    \hline
-    \textbf{Indicador} & \textbf{Optimización de Desviación Estándar} \\
-    \hline
-    Mejor (Fitness) & 120.061897 \\
-    Peor (Fitness) & 120.245979 \\
-    Media & 120.14108900000001 \\
-    Desv. Estándar & 0.07353604532132446 \\
-    \hline
-    \end{tabular}
-\end{table}
-
-
-\begin{table}[H]
-    \centering
-    \caption{Resumen Global de Corridas 01 - Imagen Médica 6R (Ojo)}
-    \begin{tabular}{lcc}
-    \hline
-    \textbf{Indicador} & \textbf{Optimización de Entropía} & \textbf{Optimización de Desviación Estándar} \\
-    \hline
-    Mejor (Fitness) & -6.84574278505749 & -0.2244060136302129 \\
-    Peor (Fitness) & -6.84574278505749 & -0.2244058045302129 \\
-    Media & -6.84574278505749 & -0.2244060136302129 \\
-    Desv. Estándar & 0.0 & 1.91e-05 \\
-    \hline
-    \end{tabular}
+\centering
+\caption{Resumen Global de Corridas 02 - Imagen Médica 5R (Mano)}
+\begin{tabular}{lc}
+\hline
+\textbf{Indicador} & \textbf{Optimización de Desviación Estándar} \\
+\hline
+Mejor (Fitness) & 120.061897 \\
+Peor (Fitness) & 120.245979 \\
+Media & 120.14108900000001 \\
+Desv. Estándar & 0.07353604532132446 \\
+\hline
+\end{tabular}
 \end{table}
 
 \begin{table}[H]
-    \centering
-    \caption{Resumen Global de Corridas 02 - Imagen Médica 6R (Ojo)}
-    \begin{tabular}{lcc}
-    \hline
-    \textbf{Indicador} & \textbf{Optimización de Entropía} & \textbf{Optimización de Desviación Estándar} \\
-    \hline
-    Mejor (Fitness) & 4.7195 & 122.711517 \\
-    Peor (Fitness) & 4.7211 & 122.773857 \\
-    Media & 4.72044 & 122.7600892 \\
-    Desv. Estándar & 0.0006066300355240354 & 0.027192434392680088 \\
-    \hline
-    \end{tabular}
+\centering
+\caption{Resumen Global de Corridas 01 - Imagen Médica 6R (Ojo)}
+\begin{tabular}{lcc}
+\hline
+\textbf{Indicador} & \textbf{Optimización de Entropía} & \textbf{Optimización de Desviación Estándar} \\
+\hline
+Mejor (Fitness) & -6.84574278505749 & -0.2244060136302129 \\
+Peor (Fitness) & -6.84574278505749 & -0.2244058045302129 \\
+Media & -6.84574278505749 & -0.2244060136302129 \\
+Desv. Estándar & 0.0 & 1.91e-05 \\
+\hline
+\end{tabular}
 \end{table}
 
-Donde cada Indicador Representa lo siguiente:
+\begin{table}[H]
+\centering
+\caption{Resumen Global de Corridas 02 - Imagen Médica 6R (Ojo)}
+\begin{tabular}{lcc}
+\hline
+\textbf{Indicador} & \textbf{Optimización de Entropía} & \textbf{Optimización de Desviación Estándar} \\
+\hline
+Mejor (Fitness) & 4.7195 & 122.711517 \\
+Peor (Fitness) & 4.7211 & 122.773857 \\
+Media & 4.72044 & 122.7600892 \\
+Desv. Estándar & 0.0006066300355240354 & 0.027192434392680088 \\
+\hline
+\end{tabular}
+\end{table}
+
+Los indicadores representan lo siguiente:
 \begin{itemize}
-    \item \textbf{Mejor (Fitness):} Representa la solución con el valor de fitness mínimo obtenido en todas las corridas.
-    \item \textbf{Peor (Fitness):} Indica la solución con el mayor valor de fitness, sirviendo como referencia de la variabilidad en la búsqueda.
-    \item \textbf{Media:} Es el promedio de los valores de fitness de la mejor solución de cada corrida, ofreciendo una visión global del desempeño del algoritmo.
-    \item \textbf{Desv. Estándar:} Mide la dispersión de los valores de fitness entre las corridas, reflejando la estabilidad y consistencia del proceso evolutivo.
+    \item \textbf{Mejor (Fitness):} Valor mínimo de fitness obtenido en todas las corridas, indicando la mejor solución encontrada.
+    \item \textbf{Peor (Fitness):} Valor máximo de fitness entre las soluciones óptimas, reflejando la variabilidad máxima.
+    \item \textbf{Media:} Promedio de los valores de fitness de las mejores soluciones por corrida, proporcionando una medida global del desempeño.
+    \item \textbf{Desv. Estándar:} Dispersión de los valores de fitness entre corridas, indicando la estabilidad del algoritmo.
 \end{itemize}
 
 \section{Análisis de los Resultados}
 
 \subsection{Consistencia y Robustez}
-Los resúmenes globales muestran que, a lo largo de las corridas, el algoritmo genético tiende a converger de manera consistente hacia soluciones de alta calidad. La extremadamente baja desviación estándar en los valores de fitness, especialmente para la optimización de entropía (0.0 en ambas imágenes), sugiere que el proceso evolutivo es excepcionalmente robusto y no depende en exceso de la aleatoriedad inherente a los operadores genéticos. Esto es crucial para problemas de optimización en imágenes médicas, ya que garantiza que la metodología aplicada es reproducible y confiable para aplicaciones clínicas.
+Los resúmenes globales muestran que el algoritmo genético converge consistentemente hacia soluciones de alta calidad. La desviación estándar extremadamente baja en la optimización de entropía (0.0 para ambas imágenes) indica una robustez notable, sugiriendo que el proceso evolutivo es reproducible y poco afectado por la aleatoriedad de los operadores genéticos.
 
 \subsection{Comparación Entre Funciones Objetivo}
+
 \subsubsection{Optimización de Entropía}
-El resumen global para la optimización de entropía indica que el algoritmo fue capaz de identificar soluciones consistentes, con una desviación estándar de 0.0 en ambas imágenes. Para la Imagen 5R, se obtuvieron valores óptimos de $\alpha = 8.2005$ y $\delta \approx 0$, mientras que para la Imagen 6R, curiosamente, los valores óptimos fueron $\alpha \approx 0$ y $\delta \approx 0$. Esta diferencia significativa entre las dos imágenes sugiere que la optimización basada en entropía es altamente sensible a las características específicas de cada imagen médica.
+La optimización de entropía logra soluciones consistentes con desviación estándar nula en las corridas 01 para ambas imágenes. Para la Imagen 5R, los valores óptimos fueron \(\alpha = 8.2005\) y \(\delta \approx 0\), mientras que para la Imagen 6R fueron \(\alpha \approx 0\) y \(\delta \approx 0\), mostrando una alta sensibilidad a las características de cada imagen.
 
 \subsubsection{Optimización de Desviación Estándar}
-Para la optimización de la desviación estándar, los resultados globales evidencian una convergencia hacia regiones con valores de fitness bajos, con una ligera variación entre corridas. Es notable que, para ambas imágenes, esta función objetivo condujo a valores de alpha cercanos al límite superior (aproximadamente 10), pero con diferentes valores de delta: cercano a 0 para la Imagen 5R y aproximadamente 0.41 para la Imagen 6R. Esto sugiere que la maximización de la desviación estándar tiende a favorecer transformaciones con pendientes pronunciadas, independientemente de la imagen específica.
+La optimización de desviación estándar converge a valores bajos de fitness con ligera variación. Para ambas imágenes, \(\alpha\) tiende al límite superior (aproximadamente 10), con \(\delta \approx 0\) para la Imagen 5R y \(\delta \approx 0.41\) para la Imagen 6R, indicando una preferencia por transformaciones de pendiente pronunciada.
 
 \subsection{Parámetros Óptimos y Sensibilidad}
-Los resultados muestran una clara diferencia en la sensibilidad de los parámetros:
-
 \begin{itemize}
-    \item \textbf{Parámetro Alpha:} Controla la pendiente de la transformación sigmoidea y, por tanto, la intensidad del contraste. La optimización de la desviación estándar consistentemente empuja este parámetro hacia su límite superior (10), mientras que la optimización de entropía muestra una mayor variabilidad dependiendo de la imagen.
-
-    \item \textbf{Parámetro Delta:} Controla el desplazamiento del punto medio de la transformación, afectando al brillo general. Este parámetro muestra una mayor sensibilidad y especificidad según la imagen, especialmente para la optimización de la desviación estándar.
+    \item \textbf{Parámetro Alpha:} Controla la pendiente de la transformación sigmoidal. La optimización de desviación estándar lo empuja hacia valores altos, mientras que la de entropía varía según la imagen.
+    \item \textbf{Parámetro Delta:} Ajusta el desplazamiento del punto medio. Muestra mayor variabilidad y especificidad según la imagen y la métrica utilizada.
 \end{itemize}
 
-\subsection{Transformación Sigmoidea}
-La mejora de contraste se logra mediante una transformación sigmoidea definida por la función:
-
+\subsection{Transformación Sigmoidal}
+La mejora del contraste se basa en la función sigmoidal:
 \begin{equation}
-sigmoid(x) = \frac{1}{1 + exp(-alpha \cdot (x - delta))}
+sigmoid(x) = \frac{1}{1 + \exp(-\alpha \cdot (x - \delta))}
 \end{equation}
-
-Donde los parámetros optimizados por el algoritmo genético son:
-\begin{itemize}
-    \item \textbf{alpha:} Controla la pendiente de la transformación (intensidad del contraste)
-    \item \textbf{delta:} Controla el desplazamiento del punto medio (ajuste de brillo)
-\end{itemize}
+donde \(\alpha\) afecta la intensidad del contraste y \(\delta\) el brillo.
 
 \section{Discusión de Resultados}
 
 \begin{itemize}
-    \item \textbf{Eficacia del Algoritmo:} Los indicadores globales extraídos de los CSV demuestran que el algoritmo genético es capaz de encontrar soluciones óptimas para la mejora de contraste en imágenes médicas, con una consistencia notable especialmente para la optimización de entropía.
-
-    \item \textbf{Especificidad de la Imagen:} La significativa diferencia en los parámetros óptimos entre las imágenes 5R y 6R, particularmente para la optimización de entropía, indica que la mejora de contraste óptima es altamente dependiente de las características específicas de cada imagen. Esto respalda la necesidad de técnicas de mejora adaptativas e individualizadas en lugar de parámetros fijos.
-
-    \item \textbf{Selección de Métricas:} La elección de la función objetivo impacta significativamente en los resultados de la mejora. La optimización de entropía parece estar mejor adaptada para preservar el contenido informativo, mientras que la optimización de la desviación estándar se centra en maximizar el contraste visual.
-
-    \item \textbf{Equilibrio entre Exploración y Explotación:} La aplicación de operadores de selección por torneo, cruzamiento SBX y mutación polinomial, junto con una población de 100 individuos y 50 generaciones, ha demostrado ser efectiva para mantener un equilibrio entre la exploración del espacio de búsqueda y la explotación de las regiones prometedoras.
-
-    \item \textbf{Potencial para Aplicaciones Clínicas:} La consistencia y robustez mostradas por los resultados sugieren que este enfoque puede ser viable para aplicaciones clínicas donde la reproducibilidad y la confiabilidad son cruciales para el diagnóstico médico.
+    \item \textbf{Eficacia del Algoritmo:} Los indicadores globales confirman la capacidad del algoritmo para optimizar el contraste, con alta consistencia en la optimización de entropía.
+    \item \textbf{Especificidad de la Imagen:} Las diferencias en parámetros óptimos entre las imágenes 5R y 6R subrayan la necesidad de enfoques adaptativos.
+    \item \textbf{Selección de Métricas:} La optimización de entropía preserva información, mientras que la de desviación estándar maximiza contraste visual.
+    \item \textbf{Equilibrio Exploración-Explotación:} Los operadores (selección por torneo, cruce SBX, mutación polinomial) con 100 individuos y 50 generaciones logran un balance efectivo.
+    \item \textbf{Aplicaciones Clínicas:} La robustez sugiere viabilidad para entornos clínicos donde la reproducibilidad es esencial.
 \end{itemize}
 
+\subsection{Limitaciones de la Optimización con Entropía de Shannon}
+Los resultados con la optimización de entropía muestran una consistencia notable, pero no siempre producen mejoras visuales óptimas, especialmente en la Imagen 6R (\(\alpha \approx 0\), \(\delta \approx 0\)). Esto puede explicarse por las limitaciones teóricas de la entropía como métrica. Según Gonzalez y Woods (página 547):
+
+\begin{quote}
+``Recordemos que el código de longitud variable en el Ejemplo 8.1 pudo representar las intensidades de la imagen en la Fig. 8.1(a) usando solo 1.81 bits/píxel. Aunque esto es mayor que la estimación de entropía de 1.6614 bits/píxel del Ejemplo 8.2, el primer teorema de Shannon, también llamado teorema de codificación sin ruido (Shannon [1948]), nos asegura que la imagen en la Fig. 8.1(a) puede representarse con tan solo 1.6614 bits/píxel. Para probarlo de manera general, Shannon consideró representar grupos de símbolos fuente consecutivos con una sola palabra de código (en lugar de una palabra por símbolo), y demostró que \(\lim_{n \to \infty} \left\lceil \frac{L_{avg,n}}{n} \right\rceil = H\), donde \(L_{avg,n}\) es el número promedio de símbolos de código necesarios para representar todos los grupos de \(n\) símbolos.''
+\end{quote}
+
+La entropía de Shannon mide la información teórica en una fuente sin memoria, asumiendo píxeles independientes. Sin embargo, en imágenes médicas reales, los píxeles están correlacionados espacialmente, lo que reduce la efectividad de la entropía como métrica directa de contraste visual. Esta correlación implica que la maximización de la entropía puede no reflejar mejoras perceptuales, ya que se enfoca en la uniformidad de la distribución de intensidades más que en la visibilidad de estructuras específicas.
+
+\subsection{Irreversibilidad de las Operaciones de Contraste y su Efecto en la Entropía}
+Las operaciones de contraste aplicadas no son reversibles, lo que tiene implicaciones directas en la entropía de la imagen transformada. Esto se debe a dos razones principales:
+
+\begin{enumerate}
+    \item \textbf{Profundidad de bits finita:} La imagen tiene una profundidad de bits limitada, lo que provoca redondeo y mapeo de diferentes valores de intensidad originales en \(X\) a un mismo valor en la imagen transformada \(Y\).
+    \item \textbf{Recorte en valores extremos:} Los valores de intensidad pueden saturarse al alcanzar los límites del rango, lo que también contribuye a la pérdida de información.
+\end{enumerate}
+
+Como resultado, la entropía condicional \(H(X|Y) > 0\), donde \(X\) es la imagen original y \(Y\) la imagen transformada, indicando que no es posible recuperar completamente \(X\) a partir de \(Y\). Dado que la transformación es determinista (es decir, \(Y = F(X)\)), la entropía condicional \(H(Y|X) = 0\), lo que implica:
+
+\[
+H(Y) = I(X;Y) + H(Y|X) = I(X;Y) + 0 = I(X;Y) < H(X)
+\]
+
+Por lo tanto, cualquier operación de contraste que no sea reversible reducirá la entropía en comparación con la imagen original. Esto explica por qué, en algunos casos, la optimización basada en entropía puede no conducir a mejoras visuales perceptibles, ya que la maximización de \(H(Y)\) no necesariamente corresponde a un aumento en el contraste visual debido a la pérdida de información inherente.
+
+\textbf{Detalles adicionales sobre la irreversibilidad:} Las operaciones de contraste no son revertibles simplemente porque:
+
+- **La profundidad de bits finita de la imagen** implica que ocurre cierto redondeo, y diferentes valores en \(X\) se mapean al mismo valor en \(Y\).
+- **El recorte en los valores extremos** ocurre cuando se alcanzan los límites del rango de intensidad, lo que también reduce la información disponible.
+
+Esto significa que \(H(X|Y) > 0\), y dado que \(I(X;Y) < H(X)\), pero \(H(Y|X) = 0\) por la naturaleza determinista de la operación, se confirma que:
+
+\[
+H(Y) = I(X;Y) < H(X)
+\]
+
+Lo que observamos es exactamente esto: todas las operaciones de estiramiento o reducción de contraste disminuyen la entropía en comparación con la imagen original.
+
+\subsection{Lecciones Aprendidas}
+A partir de este análisis, podemos extraer las siguientes conclusiones clave sobre la relación entre contraste y entropía:
+
+\begin{itemize}
+    \item \textbf{Alto contraste es una condición necesaria, pero no suficiente, para una alta entropía:} Aunque el contraste puede mejorar la percepción visual, no garantiza una mayor entropía si se pierde información en el proceso.
+    \item \textbf{La entropía está limitada por el número de valores ocupados:} Si la transformación reduce la cantidad de niveles de intensidad distintos, la entropía disminuye.
+    \item \textbf{La entropía es invariante a operaciones reversibles (y deterministas):} Solo las transformaciones que preservan toda la información original mantienen la entropía intacta.
+    \item \textbf{La entropía se reduce por operaciones deterministas no reversibles:} Como se demostró, las operaciones de contraste aplicadas aquí siempre disminuyen \(H(Y)\) respecto a \(H(X)\).
+\end{itemize}
+
+Estas lecciones subrayan la importancia de elegir métricas adecuadas según el objetivo: maximizar la entropía no siempre equivale a mejorar el contraste visual, especialmente en imágenes con limitaciones prácticas como profundidad de bits finita.
+
 \subsection{Visualización de Resultados}
-Para complementar el análisis numérico, se generaron representaciones visuales de las imágenes originales y mejoradas, permitiendo una evaluación cualitativa de los efectos de la optimización.
+Se generaron representaciones visuales para evaluar cualitativamente los efectos de la optimización:
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{../Medical_Image-Contrast_Enhancement_using_Genetic_Algorithms/outputs/Original_Medica5R_Entropy/surface_3d_Original_Medica5R_Entropy.png}
-    \caption{Comparación entre la imagen médica 5R original y su version mejorada mediante optimización de entropía}
+    \caption{Comparación entre Imagen Médica 5R original y optimizada por entropía.}
     \label{fig:comparacion_5R_Entropia}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{../Medical_Image-Contrast_Enhancement_using_Genetic_Algorithms/outputs/Original_Medica5R_Std_Deviation/surface_3d_Original_Medica5R_Std_Deviation.png}
-    \caption{Comparación entre la imagen médica 5R original y su version mejoradas mediante optimización de desviación estándar}
+    \caption{Comparación entre Imagen Médica 5R original y optimizada por desviación estándar.}
     \label{fig:comparacion_5R_std}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{../Medical_Image-Contrast_Enhancement_using_Genetic_Algorithms/outputs/Original_Medica6R_Entropy/surface_3d_Original_Medica6R_Entropy.png}
-    \caption{Comparación entre la imagen médica 6R original y su versiones mejorada mediante optimización de entropía}
+    \caption{Comparación entre Imagen Médica 6R original y optimizada por entropía.}
     \label{fig:comparacion_6R_Entropia}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{../Medical_Image-Contrast_Enhancement_using_Genetic_Algorithms/outputs/Original_Medica6R_Std_Deviation/surface_3d_Original_Medica6R_Std_Deviation.png}
-    \caption{Comparación entre la imagen médica 6R original y su versiones mejorada mediante optimización de entropía}
-    \label{fig:comparacion_6R_Entropia}
+    \caption{Comparación entre Imagen Médica 6R original y optimizada por desviación estándar.}
+    \label{fig:comparacion_6R_std}
 \end{figure}
-\newpage
-\section{Pensamientos finales}
 
-El algoritmo genético implementado ha demostrado ser eficaz para la optimización de parámetros de transformación sigmoidea en la mejora de contraste de imágenes médicas. Los resultados muestran que:
+\newpage
+\section{Pensamientos Finales}
+
+El algoritmo genético implementado ha demostrado ser eficaz para la optimización de parámetros de transformación sigmoidal en la mejora de contraste de imágenes médicas. Los resultados indican que:
 
 \begin{itemize}
-    \item La optimización de entropía y la optimización de desviación estándar representan diferentes filosofías de mejora: la primera preserva el contenido informativo mientras que la segunda maximiza el contraste visible.
-
-    \item Las diferencias significativas en los parámetros óptimos entre imágenes enfatizan la necesidad de técnicas de mejora adaptativas y específicas para cada imagen.
-
-    \item La consistencia de convergencia a través de múltiples corridas indica la fiabilidad del algoritmo genético para encontrar soluciones óptimas.
-
-    \item Un sistema ideal de mejora de imágenes médicas podría beneficiarse del uso de múltiples funciones objetivo o una métrica compuesta que equilibre la preservación de la información con la mejora del contraste.
+    \item La optimización de entropía y la de desviación estándar representan enfoques distintos: la primera preserva contenido informativo, mientras que la segunda maximiza el contraste visual.
+    \item Las diferencias en parámetros óptimos entre imágenes resaltan la necesidad de técnicas adaptativas.
+    \item La consistencia en las corridas sugiere fiabilidad para encontrar soluciones óptimas.
+    \item Un sistema ideal podría combinar múltiples métricas para equilibrar preservación de información y mejora de contraste.
 \end{itemize}
 
-Estos hallazgos sugieren que la aplicación de algoritmos genéticos para la optimización de parámetros de transformación en imágenes médicas proporciona un enfoque robusto y adaptable para mejorar la calidad de imagen, potencialmente conduciendo a diagnósticos más precisos en entornos clínicos.
+Estos resultados podrían sugerir que los algoritmos genéticos ofrecen un enfoque robusto y adaptable para mejorar la calidad de imágenes médicas, con potencial para aplicaciones clínicas que requieren precisión diagnóstica.

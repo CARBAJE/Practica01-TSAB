@@ -225,3 +225,68 @@ void GeneticAlgorithmReal::operator()() {
 
 Este ciclo itera sobre las generaciones, evaluando la aptitud, seleccionando individuos, aplicando los operadores SBX y mutación polinomial,
 y usando elitismo a fines de preservar la mejor solución.
+
+\section{Utilidades de Procesamiento de Imágenes}
+\label{sec:utilidades}
+
+Las utilidades definidas en \texttt{image\_utils.h} proporcionan las funciones necesarias para transformar y evaluar las imágenes dentro del algoritmo genético. Estas herramientas son esenciales para aplicar la transformación sigmoidal y calcular las métricas de aptitud utilizadas en el proceso de optimización.
+
+\subsection{Transformación Sigmoidal}
+\label{subsec:sigmoid_transform}
+
+La función \texttt{sigmoid\_transform} implementa la transformación sigmoidal descrita en la ecuación (\ref{eq:sigmoid_transform}), ajustando las intensidades de los píxeles de la imagen en función de los parámetros \(\alpha\) y \(\delta\):
+
+\begin{lstlisting}[style=cppstyle, caption={Transformación sigmoidal}, label={lst:sigmoid_transform}]
+cv::Mat sigmoid_transform(const cv::Mat &gray_img, float alpha, float delta) {
+    cv::Mat new_image = gray_img.clone();
+    for (int i = 0; i < gray_img.rows; i++) {
+        for (int j = 0; j < gray_img.cols; j++) {
+            new_image.at<float>(i, j) = 1.0f / (1.0f + std::exp(-alpha * (gray_img.at<float>(i, j) - delta)));
+        }
+    }
+    return new_image;
+}
+\end{lstlisting}
+
+Esta función crea una copia de la imagen original y aplica la transformación a cada píxel, generando una nueva imagen con intensidades ajustadas según la fórmula sigmoidal.
+
+\subsection{Cálculo de Entropía}
+\label{subsec:entropy}
+
+La función \texttt{entropy} calcula la entropía de Shannon, una métrica que mide la cantidad de información presente en la distribución de intensidades de la imagen:
+
+\begin{lstlisting}[style=cppstyle, caption={Cálculo de entropía}, label={lst:entropy}]
+double entropy(const cv::Mat& img) {
+    cv::Mat hist;
+    int histSize = 256;
+    float range[] = {0, 256};
+    const float* histRange = {range};
+    cv::calcHist(&img, 1, 0, cv::Mat(), hist, 1, &histSize, &histRange);
+    hist /= img.total();
+    double entropy = 0;
+    for (int i = 0; i < histSize; i++) {
+        float p = hist.at<float>(i);
+        if (p > 0) {
+            entropy -= p * log2(p);
+        }
+    }
+    return entropy;
+}
+\end{lstlisting}
+
+El cálculo se basa en un histograma de 256 niveles de intensidad, normalizado por el número total de píxeles, y aplica la fórmula \( H = -\sum_{i=0}^{255} p_i \log_2(p_i) \), donde \(p_i\) es la probabilidad de cada nivel de intensidad.
+
+\subsection{Cálculo de Desviación Estándar}
+\label{subsec:stddev}
+
+La función \texttt{standard\_deviation} determina la desviación estándar de las intensidades de la imagen, evaluando la dispersión del contraste:
+
+\begin{lstlisting}[style=cppstyle, caption={Cálculo de desviación estándar}, label={lst:stddev}]
+double standard_deviation(const cv::Mat& img) {
+    cv::Scalar mean, stddev;
+    cv::meanStdDev(img, mean, stddev);
+    return stddev[0];
+}
+\end{lstlisting}
+
+Esta función utiliza la rutina \texttt{cv::meanStdDev} de OpenCV para obtener la media y la desviación estándar de la imagen, retornando únicamente el valor de la desviación estándar como medida de variabilidad.
