@@ -1,63 +1,230 @@
-\chapter{Implementaci\'on}
+\chapter{Implementación del Algoritmo Genético}
+\label{chap:implementacion}
 
-El proyecto se ha desarrollado siguiendo una arquitectura modular\footnote{Se puede encontrar el codigo perteneciente a cada funcion dentro de} que permite separar claramente las distintas funcionalidades y facilita tanto el mantenimiento como la ampliaci\'on futura. A continuaci\'on, se detallan los principales componentes y c\'omo se integran en el sistema:
+En este capítulo se detalla la implementación del algoritmo genético (GA) diseñado para optimizar el contraste de imágenes médicas, utilizando C++ y la biblioteca OpenCV. El GA ajusta los parámetros \(\alpha\) y \(\delta\) de una transformación sigmoidal, maximizando métricas como la entropía de Shannon o la desviación estándar. Se describen los fundamentos teóricos, la estructura del código principal y los operadores de cruce y mutación utilizados.
 
-\section{Funciones Objetivo}
+\section{Fundamento Teórico}
+\label{sec:fundamento_teorico}
 
-\subsection{Descripci\'on}
-Las funciones objetivo definen el problema a optimizar. En este proyecto se incluyen dos funciones:
+Un algoritmo genético es una técnica de optimización inspirada en los principios de la evolución biológica, como la selección natural, la reproducción y la mutación. Este método pertenece a la familia de los algoritmos evolutivos y se utiliza para resolver problemas complejos de optimización donde los métodos tradicionales pueden ser insuficientes, como en la mejora del contraste de imágenes médicas.
+
+El GA opera sobre una población de posibles soluciones, denominadas individuos. Cada individuo representa una combinación de parámetros que se desea optimizar. En este caso, los parámetros son \(\alpha\) y \(\delta\), que controlan una transformación sigmoidal aplicada a las intensidades de los píxeles de una imagen. El objetivo es encontrar los valores óptimos de estos parámetros que maximicen una métrica específica de calidad de la imagen, como la entropía de Shannon o la desviación estándar.
+
+El proceso evolutivo se desarrolla en iteraciones conocidas como generaciones, y en cada una de ellas se aplican los siguientes pasos:
+
 \begin{itemize}
-    \item \textbf{Langermann}: Una funci\'on multimodal que combina componentes cosenoidales y exponenciales, generando m\'ultiples \'optimos locales.
-    \item \textbf{Drop-Wave}: Una funci\'on bidimensional con una superficie ondulada, ideal para evaluar el desempe\~no del algoritmo en entornos con picos y valles.
+    \item \textbf{Inicialización:} Se genera una población inicial de individuos con valores aleatorios dentro de rangos predefinidos (por ejemplo, \(\alpha \in [0, 20]\) y \(\delta \in [0, 1]\)).
+    \item \textbf{Evaluación de la aptitud:} Se calcula una función de aptitud para cada individuo, que mide qué tan buena es la solución que representa. En este caso, la aptitud puede ser la entropía o la desviación estándar de la imagen transformada.
+    \item \textbf{Selección:} Se eligen los individuos más aptos (con mayor valor de aptitud) para que actúen como "padres" de la siguiente generación.
+    \item \textbf{Cruce:} Se combinan pares de individuos seleccionados para producir "descendientes", intercambiando información genética (valores de \(\alpha\) y \(\delta\)).
+    \item \textbf{Mutación:} Se introducen pequeñas variaciones aleatorias en algunos individuos para mantener la diversidad en la población y evitar converger prematuramente a una solución subóptima.
+    \item \textbf{Reemplazo:} La nueva población reemplaza a la anterior, preservando a veces al mejor individuo (elitismo), y el ciclo se repite hasta alcanzar un número fijo de generaciones o un criterio de parada.
 \end{itemize}
 
-\subsection{Implementaci\'on}
-Estas funciones se encuentran en el archivo \texttt{functions.py} y est\'an parametrizadas con sus respectivos l\'imites de b\'usqueda (por ejemplo, Langermann se define en el intervalo [0,10] para cada variable, mientras que Drop-Wave utiliza los l\'imites [-5.12, 5.12]).
+\subsection{Transformación Sigmoidal}
+El núcleo del problema radica en ajustar los parámetros de una transformación sigmoidal que mejora el contraste de la imagen. La ecuación de esta transformación es:
 
-\section{M\'odulos del Algoritmo Gen\'etico}
+\begin{equation}
+I'(x, y) = \frac{1}{1 + e^{-\alpha (I(x, y) - \delta)}}
+\label{eq:sigmoid_transform}
+\end{equation}
 
-El n\'ucleo del algoritmo gen\'etico se distribuye en varios m\'odulos:
+donde:
 
-\subsection{Inicializaci\'on}
-\textbf{Funci\'on}: \texttt{initialize\_population}  
-\textbf{Ubicaci\'on}: \texttt{libs/auxiliaries\_functions.py}  
-\textbf{Descripci\'on}: Genera la poblaci\'on inicial de manera uniforme en el espacio de b\'usqueda.
-
-\subsection{Selecci\'on}
-\textbf{Funci\'on}: \texttt{vectorized\_tournament\_selection}  
-\textbf{Ubicaci\'on}: \texttt{libs/selection.py}  
-\textbf{Descripci\'on}: Se usa un enfoque de torneos para la selecci\'on de padres, empleando operaciones vectorizadas con NumPy.
-
-\subsection{Cruzamiento}
-\textbf{Funciones}: \texttt{sbx\_crossover}, \texttt{sbx\_crossover\_with\_boundaries}  
-\textbf{Ubicaci\'on}: \texttt{libs/crossover.py}  
-\textbf{Descripci\'on}: Implementa el operador SBX (Simulated Binary Crossover) con y sin control de l\'imites.
-
-\subsection{Mutaci\'on}
-\textbf{Funciones}: \texttt{polynomial\_mutation}, \texttt{polynomial\_mutation\_with\_boundaries}  
-\textbf{Ubicaci\'on}: \texttt{libs/mutation.py}  
-\textbf{Descripci\'on}: Aplica mutaci\'on polinomial, con control opcional de l\'imites para mantener la viabilidad de las soluciones.
-
-\subsection{Ejecuci\'on del Algoritmo}
-\textbf{Funci\'on}: \texttt{genetic\_algorithm}  
-\textbf{Ubicaci\'on}: \texttt{AG.py}  
-\textbf{Descripci\'on}: Gestiona el ciclo evolutivo completo del algoritmo gen\'etico.
-
-\section{Visualizaci\'on y Almacenamiento}
-
-\subsection{Visualizaci\'on}
-\textbf{M\'odulo}: \texttt{libs/plot.py}  
-\textbf{Funciones}: \texttt{plot\_evolucion\_fitness}, \texttt{plot\_surface\_3d}  
-\textbf{Descripci\'on}: Permite analizar la evoluci\'on del fitness y visualizar la superficie de las funciones objetivo.
-
-\subsection{Almacenamiento}
-\textbf{Estructura de Carpetas}:
 \begin{itemize}
-    \item Directorio \texttt{outputs} organizado en subcarpetas por funci\'on.
-    \item Historiales en archivos CSV con datos de fitness y variables.
-    \item Res\'umenes estad\'isticos de cada corrida.
+    \item \(I(x, y)\) es la intensidad original del píxel en la posición \((x, y)\) de la imagen en escala de grises (normalizada entre 0 y 1).
+    \item \(I'(x, y)\) es la intensidad transformada del píxel.
+    \item \(\alpha\) controla la pendiente de la curva sigmoidal, determinando la brusquedad del cambio de intensidad.
+    \item \(\delta\) define el punto de inflexión de la curva, desplazando el rango de intensidades afectado.
 \end{itemize}
 
-\textbf{Integraci\'on}: \texttt{main\_script.py} ejecuta el algoritmo para cada funci\'on definida en \texttt{AG\_confs.py}.
+Esta función transforma las intensidades de la imagen de manera no lineal, amplificando el contraste al mapear los valores originales a un rango que resalta diferencias entre regiones claras y oscuras.
 
-\textbf{Escalabilidad}: La arquitectura modular permite agregar nuevas funciones objetivo y modificar operadores gen\'eticos sin afectar la estructura base.
+\subsection{Función de Aptitud}
+La función de aptitud es el criterio que guía la optimización. En este caso, se utilizan dos métricas comunes para evaluar el contraste de la imagen transformada:
+
+\textbf{Entropía de Shannon:}
+\begin{equation}
+H = -\sum_{i=0}^{255} p_i \log_2(p_i)
+\end{equation}
+donde \(p_i\) es la probabilidad de la intensidad \(i\). Una mayor entropía indica una distribución más uniforme de intensidades, lo que suele corresponder a un mejor contraste.
+
+\textbf{Desviación Estándar:}
+\begin{equation}
+\sigma = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (x_i - \mu)^2}
+\end{equation}
+donde \(x_i\) son las intensidades de los píxeles, \(\mu\) es la media y \(N\) es el número total de píxeles. Una desviación estándar más alta implica mayor variabilidad en las intensidades, lo que también se asocia con un contraste mejorado.
+
+El GA busca maximizar estas métricas, aunque en la implementación se minimiza el valor negativo de la entropía o la desviación estándar para adaptarse a la convención de minimización en muchos algoritmos.
+
+\section{Estructura del Código Principal}
+\label{sec:estructura_codigo}
+
+El núcleo del algoritmo está implementado en dos archivos: \texttt{genetic\_algo\_img.h} y \texttt{genetic\_algo\_img.cpp}. El primero define la clase \texttt{GeneticAlgorithmReal}, mientras que el segundo contiene la lógica de sus métodos.
+
+\subsection{Definición de la Clase}
+\label{subsec:definicion_clase}
+
+En \texttt{genetic_algo_img.h}, se declara la clase con los elementos esenciales para el GA:
+
+\begin{lstlisting}[style=cppstyle, caption={Definición de la clase en genetic_algo_img.h}, label={lst:ga_header}]
+class GeneticAlgorithmReal {
+public:
+    enum class FitnessMetric { ENTROPY, STDDEV };
+private:
+    int population_size;
+    int num_generations;
+    std::vector<double> lower_bound;
+    std::vector<double> upper_bound;
+    cv::Mat gray_img;
+    std::vector<std::vector<double>> population;
+    std::vector<double> fitness_values;
+    FitnessMetric metric;
+
+    void initialize_population();
+    void evaluate_fitness();
+    void crossover();
+    void mutate();
+public:
+    GeneticAlgorithmReal(int pop_size, int num_genes, int num_generations,
+                         double crossover_prob, double mutation_prob,
+                         std::vector<double> lower_bound,
+                         std::vector<double> upper_bound,
+                         const cv::Mat& gray_img,
+                         FitnessMetric metric);
+    void operator()();
+    std::pair<std::vector<double>, double> getBestSolution();
+};
+\end{lstlisting}
+
+La enumeración \texttt{FitnessMetric} permite alternar entre entropía y desviación estándar como criterios de aptitud. Los miembros privados incluyen parámetros del GA (tamaño de población, generaciones, límites) y datos como la imagen de entrada y la población de individuos.
+
+\subsection{Inicialización de la Población}
+\label{subsec:inicializacion}
+
+El método \texttt{initialize_population()} genera una población inicial de individuos aleatorios dentro de los límites establecidos:
+
+\begin{lstlisting}[style=cppstyle, caption={Inicialización de la población}, label={lst:init_pop}]
+void GeneticAlgorithmReal::initialize_population() {
+    for (auto& individual : population) {
+        for (int i = 0; i < num_genes; ++i) {
+            individual[i] = lower_bound[i] + dis(gen) * (upper_bound[i] - lower_bound[i]);
+            individual[i] = std::max(lower_bound[i], std::min(upper_bound[i], individual[i]));
+        }
+    }
+}
+\end{lstlisting}
+
+La función \texttt{dis(gen)} genera valores aleatorios uniformes, y las funciones \texttt{std::max} y \texttt{std::min} aseguran que \(\alpha\) y \(\delta\) permanezcan dentro de \([0, 20]\) y \([0, 1]\), respectivamente.
+
+\subsection{Evaluación de la Aptitud}
+\label{subsec:evaluacion_aptitud}
+
+El método \texttt{evaluate_fitness()} calcula la aptitud de cada individuo aplicando la transformación sigmoidal:
+
+\begin{lstlisting}[style=cppstyle, caption={Evaluación de la aptitud}, label={lst:eval_fitness}]
+void GeneticAlgorithmReal::evaluate_fitness() {
+    for (int i = 0; i < population_size; ++i) {
+        double alpha = population[i][0];
+        double delta = population[i][1];
+        cv::Mat transformed = sigmoid_transform(gray_img, alpha, delta);
+        cv::normalize(transformed, transformed, 0, 1, cv::NORM_MINMAX);
+        transformed.convertTo(transformed, CV_8U, 255.0);
+        if (metric == FitnessMetric::ENTROPY) {
+            double entropy_value = entropy(transformed);
+            fitness_values[i] = -entropy_value; // Minimize negative entropy (maximize entropy)
+        } else { // STDDEV
+            double stddev_value = standard_deviation(transformed);
+            fitness_values[i] = -stddev_value; // Minimize negative stddev (maximize stddev)
+        }
+    }
+}
+\end{lstlisting}
+
+La imagen transformada se normaliza y convierte a formato de 8 bits. La aptitud se define como el negativo de la métrica seleccionada, permitiendo al GA maximizarla mediante un proceso de minimización.
+
+\section{Operadores Genéticos}
+\label{sec:operadores}
+
+El GA utiliza dos operadores clave: el cruce SBX y la mutación polinomial, implementados en \texttt{sbx.cpp} y \texttt{polynomial\_mut.cpp}, respectivamente.
+
+\subsection{Cruce SBX}
+\label{subsec:cruce_sbx}
+
+El operador Simulated Binary Crossover (SBX) genera dos descendientes a partir de dos padres, simulando un cruce binario en variables reales:
+
+\begin{lstlisting}[style=cppstyle, caption={Cruce SBX}, label={lst:sbx}]
+std::pair<std::vector<double>, std::vector<double>> sbx(std::vector<double> f1, std::vector<double> f2, double r, 
+    const std::vector<double>& lower_bound, const std::vector<double>& upper_bound, double nc) {
+    std::vector<double> s1(f1.size());
+    std::vector<double> s2(f2.size());
+    for(size_t i = 0; i < f1.size(); i++) {
+        if (std::abs(f1[i] - f2[i]) < 1e-14) {
+            s1[i] = f1[i];
+            s2[i] = f2[i];
+            continue;
+        }
+        double beta = 1 + (2.0 * std::min(f1[i] - lower_bound[i], upper_bound[i] - f2[i]) / 
+                           std::abs(f1[i] - f2[i]));
+        double alpha = 2 - std::pow(std::abs(beta), -(nc + 1.0));
+        double u = r;
+        double beta_c = (u <= 1.0 / alpha) ? 
+                        std::pow((u * alpha), (1.0 / (nc + 1))) : 
+                        std::pow((1.0 / (2.0 - u * alpha)), (1.0 / (nc + 1)));
+        s1[i] = 0.5 * (f1[i] + f2[i] - beta_c * std::abs(f2[i] - f1[i]));
+        s2[i] = 0.5 * (f1[i] + f2[i] + beta_c * std::abs(f2[i] - f1[i]));
+    }
+    return {s1, s2};
+}
+\end{lstlisting}
+
+El parámetro \(\beta_c\) controla la dispersión de los descendientes (\(s1\), \(s2\)) respecto a los padres (\(f1\), \(f2\)), basado en una distribución simulada binaria ajustada por el índice \(nc\).
+
+\subsection{Mutación Polinomial}
+\label{subsec:mutacion_polinomial}
+
+La mutación polinomial introduce variaciones controladas en los parámetros:
+
+\begin{lstlisting}[style=cppstyle, caption={Mutación polinomial}, label={lst:poly_mut}]
+std::vector<double> polynomial_mutation(std::vector<double>& x, double r, int nm) {
+    std::vector<double> mutated_x(x.size());
+    for (int i = 0; i < x.size(); i++) {
+        double upper_bound = x[i] > 0 ? std::floor(x[i]) : std::ceil(x[i]);
+        double lower_bound = x[i] < 0 ? std::floor(x[i]) : std::ceil(x[i]);
+        double delta = std::min(upper_bound - x[i], x[i] - lower_bound) / (upper_bound - lower_bound);
+        double deltaq = 0.0;
+        if (r <= 0.5) {
+            deltaq = x[i] + std::pow(2 * delta + (1 - 2 * delta) * (1 - r), nm + 1);
+        } else {
+            deltaq = x[i] - std::pow(2 * (1 - delta) + 2 * (delta - 0.5) * (1 - r), nm + 1);
+        }
+        mutated_x[i] = deltaq * (upper_bound - lower_bound);
+    }
+    return mutated_x;
+}
+\end{lstlisting}
+
+El valor \(\delta_q\) representa la perturbación, cuya magnitud depende del índice de mutación \(nm\), permitiendo ajustes finos en los parámetros.
+
+\section{Ejecución del Algoritmo}
+\label{sec:ejecucion}
+
+El método \texttt{operator()()} ejecuta el ciclo principal del GA:
+
+\begin{lstlisting}[style=cppstyle, caption={Ciclo principal del algoritmo}, label={lst:ga_run}]
+void GeneticAlgorithmReal::operator()() {
+    for (int generation = 0; generation < num_generations; ++generation) {
+        std::cout << "Generation " << generation + 1 << std::endl;
+        output_file << "Generation: " << generation + 1 << " | ";
+        evaluate_fitness();
+        select_best_individual();
+        crossover();
+        mutate();
+        evaluate_fitness();
+        apply_elitism();
+    }
+}
+\end{lstlisting}
+
+Este ciclo itera sobre las generaciones, evaluando la aptitud, seleccionando individuos, aplicando los operadores SBX y mutación polinomial,
+y usando elitismo a fines de preservar la mejor solución.
