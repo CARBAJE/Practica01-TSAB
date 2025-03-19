@@ -1,0 +1,162 @@
+\chapter{Marco Teórico}
+
+\section{Antecedentes sobre el Mejoramiento de Contraste en Imágenes Médicas}
+El mejoramiento del contraste reviste una gran importancia en el ámbito de las imágenes médicas. Este proceso realza la claridad de las imágenes, permitiendo a los radiólogos evaluar las estructuras con mayor detalle. Al aumentar la sensibilidad de los exámenes, se proporciona información más detallada a los médicos. Es vital para la evaluación, el diagnóstico y el tratamiento de numerosas afecciones, tanto rutinarias como críticas, incluyendo accidentes cerebrovasculares, síndromes coronarios agudos y traumatismos. En el campo de la oncología, resulta crucial para evaluar las características de los tumores, su vascularización y posibles metástasis. En neurología, facilita el examen del sistema nervioso y los cambios degenerativos en el cerebro. Además, mejora la diferenciación entre tejidos blandos como músculos, tendones y órganos internos. La trascendencia clínica del mejoramiento del contraste se manifiesta en su amplia aplicación a través de diversas especialidades y condiciones médicas. Esta extensa aplicabilidad subraya la relevancia práctica y el potencial impacto de la investigación en esta área.
+
+A lo largo del tiempo, se han desarrollado diversas técnicas para mejorar el contraste en imágenes médicas, las cuales pueden clasificarse en tradicionales y avanzadas. Entre las técnicas tradicionales, se encuentran la transformación del nivel de gris y la transformación del histograma, métodos comúnmente utilizados. La ecualización del histograma (HE) es una técnica popular que mapea los niveles de gris basándose en la distribución de probabilidad para lograr un histograma más uniforme y, por ende, mejorar el contraste. La corrección gamma ajusta el brillo de la imagen mediante un parámetro gamma. El mejoramiento de contraste morfológico emplea transformaciones de sombrero de copa blanco y negro. También existen métodos basados en wavelets, descomposición modal empírica bidimensional, estiramiento de la descorrelación, basados en ecuaciones diferenciales parciales y basados en filtros de mediana.
+
+En cuanto a las técnicas avanzadas, la ecualización de histograma adaptativa (AHE) proporciona una mejora del contraste local al calcular histogramas de ventanas locales. La ecualización de histograma adaptativa con límite de contraste (CLAHE) es una generalización de AHE que limita la cantidad de mejora del contraste local para reducir la amplificación del ruido. Adicionalmente, se están explorando técnicas que involucran autoencoders profundos y métodos de mejora de imágenes con poca luz.
+
+A pesar de la existencia de numerosas técnicas de mejora del contraste, a menudo presentan limitaciones y compromisos. Por ejemplo, la ecualización del histograma puede degradar la calidad de la imagen si la imagen original no tiene bajo contraste. Los métodos tradicionales a veces pueden generar amplificación de ruido o sobre-saturación. La corrección gamma requiere una selección cuidadosa del valor gamma, lo cual puede ser un desafío. Estas limitaciones motivan la exploración de métodos alternativos, como aquellos basados en algoritmos genéticos y funciones sigmoidales, que podrían ofrecer ventajas en contextos específicos.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Comparación de Técnicas de Mejoramiento de Contraste Tradicionales y Avanzadas}
+    \begin{adjustbox}{max width=\textwidth}
+    \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|p{3cm}|}
+    \hline
+    \textbf{Técnica Nombre} & \textbf{Principio Básico} & \textbf{Ventajas} & \textbf{Limitaciones} & \textbf{Ejemplo de Aplicación} \\
+    \hline
+    Ecualización del Histograma (HE) & Mapeo de niveles de gris basado en la distribución de probabilidad. & Simple, explícita, mejora el contraste en imágenes de bajo contraste. & Puede degradar la calidad en imágenes con buen contraste inicial. & Procesamiento de imágenes médicas, radar. \\
+    \hline
+    Corrección Gamma & Ajuste del brillo de la imagen mediante un parámetro gamma. & Preserva el brillo, mejora el rango dinámico. & La selección óptima del valor gamma es crucial y puede ser dependiente del contenido de la imagen. & Amplia aplicación en imágenes médicas. \\
+    \hline
+    Ecualización Adaptativa del Histograma (AHE) & Cálculo del histograma en ventanas locales para la mejora del contraste. & Mejora el contraste local, realza detalles en diferentes regiones de la imagen. & Puede amplificar el ruido en áreas homogéneas. & \\
+    \hline
+    CLAHE & Similar a AHE pero limita la mejora del contraste local para reducir el ruido. & Reduce la amplificación del ruido, previene la sobre-saturación, mejora el contraste local. & & Imágenes médicas de bajo contraste, como películas de portal. \\
+    \hline
+    \end{tabular}
+    \end{adjustbox}
+\end{table}
+
+
+\section{Fundamentos Teóricos}
+La función sigmoide desempeña un papel crucial en el ajuste del contraste de las imágenes. Una función sigmoide es una función matemática con forma de ``S'', acotada y diferenciable. Ejemplos comunes incluyen la función logística ($\sigma(x) = 1/(1 + e^{-x})$) y la función tangente hiperbólica. La salida de una función sigmoide logística estándar se encuentra en el rango de 0 a 1, lo que la hace adecuada para mapear las intensidades de los píxeles a un rango normalizado. Las funciones sigmoidales son monótonas y poseen una primera derivada con forma de campana. Además, introducen no linealidad, una propiedad esencial para aprender relaciones complejas en los datos.
+
+En el procesamiento de imágenes, las funciones sigmoidales pueden utilizarse para ajustar los valores de intensidad de los píxeles, realzando el contraste entre las regiones oscuras y claras. Al variar los parámetros de la función sigmoide (por ejemplo, la pendiente y el centro), es posible controlar el contraste de una imagen. Se han empleado funciones sigmoidales adaptativas para la mejora del contraste de imágenes, a veces en combinación con la ecualización bihistograma. También se han propuesto operadores de función sigmoide cuartílica para compensar la pérdida perceptual en el contraste de luminosidad al escalar imágenes a dispositivos con un rango dinámico limitado. Las propiedades de la función sigmoide, en particular su salida acotada y su naturaleza no lineal, la convierten en una herramienta adecuada para la manipulación del contraste de imágenes. La capacidad de ajustar sus parámetros proporciona una forma flexible de controlar el grado de mejora.
+
+Los algoritmos genéticos proporcionan un marco robusto para optimizar los parámetros de la función sigmoide para el mejoramiento del contraste de imágenes. Los AGs se inspiran en la selección natural y la genética, imitando el proceso evolutivo para encontrar soluciones óptimas. Operan sobre una población de soluciones candidatas (cromosomas), donde cada cromosoma representa una posible solución al problema de optimización. El algoritmo evoluciona iterativamente esta población a lo largo de generaciones para mejorar la aptitud de las soluciones.
+
+Los componentes clave de un algoritmo genético incluyen:
+
+\begin{itemize}
+\item \textbf{Población:} Un conjunto de soluciones candidatas (individuos o cromosomas).
+
+\item \textbf{Función de Aptitud:} Evalúa la calidad de cada solución, guiando el proceso de selección. En este contexto, las funciones objetivo (entropía y desviación estándar) servirán como funciones de aptitud.
+
+\item \textbf{Selección:} Elige individuos con mayor aptitud para convertirse en padres para la siguiente generación. Los métodos comunes incluyen la ruleta, el torneo y la selección basada en el rango.
+
+\item \textbf{Cruce (Recombinación):} Combina el material genético de dos padres para crear nuevos descendientes. Las técnicas comunes incluyen el cruce de un punto, multipunto y uniforme.
+
+\item \textbf{Mutación:} Introduce cambios aleatorios en los cromosomas de los descendientes para mantener la diversidad y explorar nuevas partes del espacio de búsqueda.
+\end{itemize}
+
+Los AGs son adecuados para el procesamiento de imágenes ya que pueden manejar funciones objetivo complejas y no lineales que podrían ser difíciles para los métodos de optimización tradicionales. Son menos sensibles al punto de partida en comparación con los métodos basados en gradiente. Los AGs pueden explorar un gran espacio de soluciones para encontrar parámetros casi óptimos para la mejora de imágenes. La capacidad de los AGs para manejar espacios de búsqueda complejos y relaciones no lineales los hace idóneos para esta tarea.
+
+Las funciones objetivo son métricas que guían el proceso de optimización en un algoritmo genético. En el contexto del mejoramiento del contraste de imágenes, tanto la maximización de la entropía como la maximización de la desviación estándar son enfoques comunes.
+
+La maximización de la entropía se basa en el concepto de la teoría de la información, donde la entropía mide la aleatoriedad o la incertidumbre en un sistema. En una imagen, refleja la distribución de las intensidades de los píxeles. Una imagen con mayor entropía típicamente presenta una distribución más amplia y uniforme de las intensidades de los píxeles, lo que a menudo se asocia con un mayor contraste y una mejor visibilidad de los detalles. Maximizar la entropía como función objetivo busca dispersar el histograma de intensidad de los píxeles, mejorando así el contraste general de la imagen.
+
+La maximización de la desviación estándar utiliza una medida estadística de la dispersión de un conjunto de valores. En una imagen, refleja la dispersión de los valores de intensidad de los píxeles alrededor de la intensidad media. Una desviación estándar más alta indica una mayor diferencia entre las áreas oscuras y claras de la imagen, lo que corresponde a un mayor contraste. Maximizar la desviación estándar como función objetivo busca aumentar la diferencia entre los valores extremos de intensidad de los píxeles, realzando de esta manera el contraste de la imagen.
+
+La elección de la entropía y la desviación estándar como funciones objetivo proporciona dos perspectivas distintas sobre lo que constituye un buen contraste. La entropía se centra en la distribución general de las intensidades de los píxeles, mientras que la desviación estándar enfatiza la dispersión de los valores. La comparación de estas dos funciones objetivo proporcionará información sobre cuál de las dos es más eficaz para guiar al algoritmo genético hacia la consecución de un mejor mejoramiento del contraste en imágenes médicas. Comparar su efectividad dentro del marco del AG ofrecerá información valiosa sobre la relación entre la distribución de píxeles y el contraste percibido en imágenes médicas.
+
+\section{Marco Teórico Propuesto}
+El marco teórico propuesto se basa en un modelo conceptual que ilustra el proceso de mejoramiento del contraste de imágenes médicas utilizando un algoritmo genético con transformación sigmoide y la comparación de dos funciones objetivo. El proceso se puede describir de la siguiente manera:
+
+\begin{enumerate}
+\item Se toma una imagen médica de entrada.
+\item Se inicializa una población de conjuntos de parámetros de la función sigmoide (cromosomas).
+\item Para cada generación:
+   \begin{enumerate}
+   \item Se aplica cada conjunto de parámetros a la imagen de entrada para generar imágenes mejoradas.
+   \item Se calcula la aptitud de cada imagen mejorada utilizando ambas funciones objetivo (entropía y desviación estándar).
+   \item Se seleccionan conjuntos de parámetros padres en función de su aptitud para cada función objetivo.
+   \item Se realizan operaciones de cruce y mutación en los padres seleccionados para crear una nueva generación de conjuntos de parámetros.
+   \end{enumerate}
+\item Se repiten los pasos hasta que se cumple un criterio de parada (por ejemplo, un número máximo de generaciones, una aptitud satisfactoria).
+\item Se obtienen las imágenes mejoradas y los parámetros óptimos correspondientes de la función sigmoide para ambas funciones objetivo.
+\end{enumerate}
+
+Se proponen las siguientes hipótesis para guiar la investigación:
+
+\begin{itemize}
+\item \textbf{Hipótesis 1:} El algoritmo genético que utiliza la maximización de la entropía como función objetivo resultará en imágenes médicas con una distribución más uniforme de las intensidades de los píxeles y un mayor detalle general.
+
+\item \textbf{Hipótesis 2:} El algoritmo genético que utiliza la maximización de la desviación estándar como función objetivo conducirá a imágenes médicas con una mayor diferencia entre las regiones oscuras y claras, lo que resultará en un mejor contraste local.
+
+\item \textbf{Hipótesis 3:} La efectividad de la maximización de la entropía y la maximización de la desviación estándar en la mejora del contraste variará dependiendo del tipo específico y las características de las imágenes médicas que se estén procesando.
+\end{itemize}
+
+Las variables clave y sus relaciones anticipadas en este estudio son:
+
+\textbf{Variables Independientes:}
+\begin{itemize}
+\item Parámetros de la función sigmoide (por ejemplo, centro, pendiente).
+\item Parámetros del algoritmo genético (por ejemplo, tamaño de la población, tasa de cruce, tasa de mutación, número de generaciones).
+\item Elección de la función objetivo (maximización de la entropía vs. maximización de la desviación estándar).
+\item Tipo y características de las imágenes médicas de entrada.
+\end{itemize}
+
+\textbf{Variables Dependientes:}
+\begin{itemize}
+\item Medidas cuantitativas del contraste de la imagen (por ejemplo, entropía, desviación estándar, relación contraste-ruido, índice de similitud estructural).
+\item Evaluación cualitativa del contraste de la imagen y la calidad diagnóstica por parte de expertos médicos.
+\end{itemize}
+
+\textbf{Relaciones Anticipadas:}
+\begin{itemize}
+\item Configuraciones específicas de los parámetros de la función sigmoide tendrán un impacto directo en el contraste de la imagen resultante.
+\item Los parámetros del algoritmo genético influirán en la eficiencia y efectividad del proceso de optimización.
+\item La elección de la función objetivo determinará las características específicas de la mejora del contraste lograda.
+\item Diferentes tipos de imágenes médicas podrían responder de manera diferente a las dos estrategias de optimización.
+\end{itemize}
+
+Este marco teórico se basa en las siguientes suposiciones subyacentes:
+\begin{itemize}
+\item La maximización de la entropía y la desviación estándar son indicadores relevantes de una mejora del contraste visual en imágenes médicas.
+\item La parametrización elegida de la función sigmoide es lo suficientemente flexible como para lograr una mejora del contraste eficaz para las imágenes médicas objetivo.
+\item Los parámetros del algoritmo genético pueden ajustarse para garantizar la convergencia a una solución casi óptima dentro de un plazo razonable.
+\item Las evaluaciones cualitativas realizadas por expertos médicos pueden proporcionar una medida fiable de la utilidad clínica de las imágenes mejoradas.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Propiedades de las Funciones Sigmoidales Comunes}
+\begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{5cm}|}
+\hline
+\textbf{Función Sigmoide Nombre} & \textbf{Fórmula} & \textbf{Rango de Salida} & \textbf{Propiedades Clave} \\
+\hline
+Función Logística & $\sigma(x) = 1 / (1 + e^{-x})$ & (0, 1) & Monotónicamente creciente, diferenciable, salida entre 0 y 1. \\
+\hline
+Tangente Hiperbólica (tanh) & $\tanh(x) = (e^{x} - e^{-x}) / (e^{x} + e^{-x})$ & (-1, 1) & Monotónicamente creciente, diferenciable, simétrica alrededor del origen, salida entre -1 y 1. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Componentes Clave de un Algoritmo Genético}
+\begin{tabular}{|p{3cm}|p{6cm}|p{6cm}|}
+\hline
+\textbf{Componente Nombre} & \textbf{Descripción} & \textbf{Rol en el Algoritmo} \\
+\hline
+Población & Conjunto de soluciones candidatas (cromosomas). & Representa el espacio de búsqueda y evoluciona hacia la solución óptima. \\
+\hline
+Función de Aptitud & Evalúa la calidad de cada cromosoma. & Guía el proceso de selección favoreciendo soluciones de alta calidad. \\
+\hline
+Selección & Proceso de elegir cromosomas para la reproducción. & Asegura que los genes de los individuos más aptos se transmitan a la siguiente generación. \\
+\hline
+Cruce & Combinación del material genético de dos padres. & Crea nuevos descendientes con características de ambos padres, explorando nuevas soluciones. \\
+\hline
+Mutación & Introducción de cambios aleatorios en los cromosomas. & Mantiene la diversidad genética y evita la convergencia prematura a óptimos locales. \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Conexión con la Literatura Existente}
+Es fundamental revisar la literatura existente sobre el uso de funciones sigmoidales para el mejoramiento del contraste de imágenes. Diversos estudios han explorado la aplicación de funciones sigmoidales en este campo, demostrando su capacidad para ajustar las intensidades de los píxeles y mejorar la calidad visual de las imágenes. Además, es importante investigar la investigación sobre la aplicación de algoritmos genéticos en el procesamiento y la optimización de imágenes médicas. Los AGs se han utilizado con éxito en una variedad de tareas de procesamiento de imágenes, incluyendo la segmentación, la selección de características y la mejora de la calidad de la imagen.
+
+También se debe investigar estudios que hayan utilizado la entropía y la desviación estándar como funciones objetivo para la mejora de imágenes o en otras tareas de procesamiento de imágenes. La entropía y la desviación estándar son métricas comunes utilizadas para evaluar el contraste y la calidad de las imágenes, y su uso como funciones objetivo en algoritmos de optimización puede conducir a resultados significativos.
+
+El marco teórico propuesto se basa en el conocimiento existente y potencialmente lo extiende. Es crucial identificar si existen estudios que comparen directamente estas dos funciones objetivo dentro de un marco de transformación sigmoide basado en AGs para imágenes médicas. Al resaltar cómo este trabajo se relaciona con la literatura existente y al identificar cualquier laguna que esta investigación pretende abordar, se puede establecer la novedad y la contribución de este estudio.

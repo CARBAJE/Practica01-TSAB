@@ -25,7 +25,7 @@ El proceso evolutivo se desarrolla en iteraciones conocidas como generaciones, y
 El núcleo del problema radica en ajustar los parámetros de una transformación sigmoidal que mejora el contraste de la imagen. La ecuación de esta transformación es:
 
 \begin{equation}
-I'(x, y) = \frac{1}{1 + e^{-\alpha (I(x, y) - \delta)}}
+    I^\prime(x, y) = \frac{1}{1 + e^{-\alpha (I(x, y) - \delta)}}
 \label{eq:sigmoid_transform}
 \end{equation}
 
@@ -33,7 +33,7 @@ donde:
 
 \begin{itemize}
     \item \(I(x, y)\) es la intensidad original del píxel en la posición \((x, y)\) de la imagen en escala de grises (normalizada entre 0 y 1).
-    \item \(I'(x, y)\) es la intensidad transformada del píxel.
+    \item \(I^\prime(x, y)\) es la intensidad transformada del píxel.
     \item \(\alpha\) controla la pendiente de la curva sigmoidal, determinando la brusquedad del cambio de intensidad.
     \item \(\delta\) define el punto de inflexión de la curva, desplazando el rango de intensidades afectado.
 \end{itemize}
@@ -45,29 +45,27 @@ La función de aptitud es el criterio que guía la optimización. En este caso, 
 
 \textbf{Entropía de Shannon:}
 \begin{equation}
-H = -\sum_{i=0}^{255} p_i \log_2(p_i)
+    H = -\sum_{i=0}^{255} p_i \log_2(p_i)
 \end{equation}
 donde \(p_i\) es la probabilidad de la intensidad \(i\). Una mayor entropía indica una distribución más uniforme de intensidades, lo que suele corresponder a un mejor contraste.
 
 \textbf{Desviación Estándar:}
 \begin{equation}
-\sigma = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (x_i - \mu)^2}
+    \sigma = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (x_i - \mu)^2}
 \end{equation}
 donde \(x_i\) son las intensidades de los píxeles, \(\mu\) es la media y \(N\) es el número total de píxeles. Una desviación estándar más alta implica mayor variabilidad en las intensidades, lo que también se asocia con un contraste mejorado.
 
 El GA busca maximizar estas métricas, aunque en la implementación se minimiza el valor negativo de la entropía o la desviación estándar para adaptarse a la convención de minimización en muchos algoritmos.
 
-\section{Estructura del Código Principal}
-\label{sec:estructura_codigo}
+\section{Estructura del Código Principal}\label{sec:estructura_codigo}
 
 El núcleo del algoritmo está implementado en dos archivos: \texttt{genetic\_algo\_img.h} y \texttt{genetic\_algo\_img.cpp}. El primero define la clase \texttt{GeneticAlgorithmReal}, mientras que el segundo contiene la lógica de sus métodos.
 
-\subsection{Definición de la Clase}
-\label{subsec:definicion_clase}
+\subsection{Definición de la Clase}\label{subsec:definicion_clase}
 
-En \texttt{genetic_algo_img.h}, se declara la clase con los elementos esenciales para el GA:
+En \texttt{genetic\_algo\_img.h}, se declara la clase con los elementos esenciales para el GA:
 
-\begin{lstlisting}[style=cppstyle, caption={Definición de la clase en genetic_algo_img.h}, label={lst:ga_header}]
+\begin{lstlisting}[style=cppstyle, caption={Definición de la clase en genetic\_algo\_img.h}, label={lst:ga_header}]
 class GeneticAlgorithmReal {
 public:
     enum class FitnessMetric { ENTROPY, STDDEV };
@@ -99,10 +97,9 @@ public:
 
 La enumeración \texttt{FitnessMetric} permite alternar entre entropía y desviación estándar como criterios de aptitud. Los miembros privados incluyen parámetros del GA (tamaño de población, generaciones, límites) y datos como la imagen de entrada y la población de individuos.
 
-\subsection{Inicialización de la Población}
-\label{subsec:inicializacion}
+\subsection{Inicialización de la Población}\label{subsec:inicializacion}
 
-El método \texttt{initialize_population()} genera una población inicial de individuos aleatorios dentro de los límites establecidos:
+El método \texttt{initialize\_population()} genera una población inicial de individuos aleatorios dentro de los límites establecidos:
 
 \begin{lstlisting}[style=cppstyle, caption={Inicialización de la población}, label={lst:init_pop}]
 void GeneticAlgorithmReal::initialize_population() {
@@ -120,7 +117,7 @@ La función \texttt{dis(gen)} genera valores aleatorios uniformes, y las funcion
 \subsection{Evaluación de la Aptitud}
 \label{subsec:evaluacion_aptitud}
 
-El método \texttt{evaluate_fitness()} calcula la aptitud de cada individuo aplicando la transformación sigmoidal:
+El método \texttt{evaluate\_fitness()} calcula la aptitud de cada individuo aplicando la transformación sigmoidal:
 
 \begin{lstlisting}[style=cppstyle, caption={Evaluación de la aptitud}, label={lst:eval_fitness}]
 void GeneticAlgorithmReal::evaluate_fitness() {
@@ -154,7 +151,7 @@ El GA utiliza dos operadores clave: el cruce SBX y la mutación polinomial, impl
 El operador Simulated Binary Crossover (SBX) genera dos descendientes a partir de dos padres, simulando un cruce binario en variables reales:
 
 \begin{lstlisting}[style=cppstyle, caption={Cruce SBX}, label={lst:sbx}]
-std::pair<std::vector<double>, std::vector<double>> sbx(std::vector<double> f1, std::vector<double> f2, double r, 
+std::pair<std::vector<double>, std::vector<double>> sbx(std::vector<double> f1, std::vector<double> f2, double r,
     const std::vector<double>& lower_bound, const std::vector<double>& upper_bound, double nc) {
     std::vector<double> s1(f1.size());
     std::vector<double> s2(f2.size());
@@ -164,12 +161,12 @@ std::pair<std::vector<double>, std::vector<double>> sbx(std::vector<double> f1, 
             s2[i] = f2[i];
             continue;
         }
-        double beta = 1 + (2.0 * std::min(f1[i] - lower_bound[i], upper_bound[i] - f2[i]) / 
+        double beta = 1 + (2.0 * std::min(f1[i] - lower_bound[i], upper_bound[i] - f2[i]) /
                            std::abs(f1[i] - f2[i]));
         double alpha = 2 - std::pow(std::abs(beta), -(nc + 1.0));
         double u = r;
-        double beta_c = (u <= 1.0 / alpha) ? 
-                        std::pow((u * alpha), (1.0 / (nc + 1))) : 
+        double beta_c = (u <= 1.0 / alpha) ?
+                        std::pow((u * alpha), (1.0 / (nc + 1))) :
                         std::pow((1.0 / (2.0 - u * alpha)), (1.0 / (nc + 1)));
         s1[i] = 0.5 * (f1[i] + f2[i] - beta_c * std::abs(f2[i] - f1[i]));
         s2[i] = 0.5 * (f1[i] + f2[i] + beta_c * std::abs(f2[i] - f1[i]));
